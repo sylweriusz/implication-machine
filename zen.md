@@ -123,7 +123,7 @@ The literal clause format and the add/update recipe are in **`zen-contract`**.
 
 Operations on the contract — read, lint, verify, status — go through the `zen` CLI (`zen help`);
 it shares the gate's parser, so its reports match the gate's verdict. The skills route to it,
-with a fallback to reading `.zen/contract.md` directly when `zen` is unavailable.
+if bare `zen` is not on PATH, use the CLI invocation the session-start index emits; only with no CLI at all read `.zen/contract.md` directly.
 
 ---
 

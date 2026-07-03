@@ -366,6 +366,20 @@ else
   echo "skip - zen_installer_shim (not a built tree: install.sh has no sibling bin/)"
 fi
 
+# ── CASE: context_emits_cli_invocation — the SessionStart index must tell the model HOW to run the
+# CLI (`node <plugin>/bin/zen.js`): a marketplace install never runs install.sh, so no shim is on
+# PATH and a bare `zen` fails on a stranger's machine (C-050). Checked in BOTH branches: governed
+# (index) and ungoverned-git (adoption nudge).
+CTX="$HOOKS/zen-context.js"
+r="$(new_repo)"
+out="$(printf '{"cwd":"%s"}' "$r" | "$NODE" "$CTX")"
+echo "$out" | grep -q 'bin/zen\.js' && ok context_emits_cli_invocation_governed || bad context_emits_cli_invocation_governed
+rm -rf "$r"
+u="$(mktemp -d /tmp/zen-ctx-ungov.XXXXXX)"; ( cd "$u" && git init -q )
+out="$(printf '{"cwd":"%s"}' "$u" | "$NODE" "$CTX")"
+echo "$out" | grep -q 'bin/zen\.js' && ok context_emits_cli_invocation_ungoverned || bad context_emits_cli_invocation_ungoverned
+rm -rf "$u"
+
 echo "---"
 if [ "$fails" -eq 0 ]; then echo "all zen cli cases passed"; exit 0; fi
 echo "$fails zen cli case(s) failed"; exit 1

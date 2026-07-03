@@ -18,8 +18,9 @@ it does **not** run the test suite as a gate (that's `/zen-reconcile`'s job). It
 
 1. **Read the contract's state.** Run `zen status` / `zen list` / `zen drift` — the
    deterministic CLI shares the gate's parser, so its report matches the gate's verdict.
-   (`zen list --json` for machine output; if `zen` is unavailable, read `.zen/contract.md`
-   directly.) List every `C-xxx` and `P-xxx` with title, status, and verification link.
+   (`zen list --json` for machine output; if bare `zen` is not on PATH, use the invocation
+   the session-start index emits — `node <plugin>/bin/zen.js <cmd>`; only with no CLI at all
+   read `.zen/contract.md` directly.) List every `C-xxx` and `P-xxx` with title, status, and verification link.
 
 2. **Flag drift:**
    - `Status: pending verification` but a passing test exists → **stale status** (mark

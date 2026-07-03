@@ -110,7 +110,7 @@ function main() {
 		const out = {
 			hookSpecificOutput: {
 				hookEventName: "SessionStart",
-				additionalContext: `# [IMPLICATION→MACHINE] ${project} is not governed (no .zen/contract.md). Run /zen-init to adopt the living-contract workflow — contract ∧ tests ∧ docs ∧ code kept in agreement, with a Stop-gate that catches drift.`,
+				additionalContext: `# [IMPLICATION→MACHINE] ${project} is not governed (no .zen/contract.md). Run /zen-init to adopt the living-contract workflow — contract ∧ tests ∧ docs ∧ code kept in agreement, with a Stop-gate that catches drift. zen CLI: \`node ${path.join(__dirname, "..", "bin", "zen.js")}\`.`,
 			},
 		};
 		if (!quiet) {
@@ -178,6 +178,10 @@ function main() {
 	if (pDeltaList.length) {
 		md.push(`↳ ${pDeltaList.length} pending delta${pDeltaList.length > 1 ? "s" : ""} — oldest: ${oldestDeltas.map((d) => `${d.id}${d.date ? ` (${d.date})` : ""}`).join(", ")}. Promote a ripe one with /zen-contract, or drop it if already resolved; /zen-check lists all.`);
 	}
+	// The CLI's working invocation (C-050): a marketplace install never runs install.sh, so no `zen`
+	// shim is on PATH — the model must be told the portable form. __dirname resolves at runtime on the
+	// user's machine, so the emitted path is host-correct without any host path shipping in the bundle.
+	md.push(`zen CLI: \`node ${path.join(__dirname, "..", "bin", "zen.js")}\` (bare \`zen\` works only if the shim is installed).`);
 	md.push("→ index only — run /zen-check for the full map · clause bodies in .zen/contract.md · evidence logs in .zen/evidence/");
 
 	const out = { hookSpecificOutput: { hookEventName: "SessionStart", additionalContext: md.join("\n") } };
