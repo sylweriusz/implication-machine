@@ -1,0 +1,39 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/zen-reconcile-gate.js\"",
+            "timeout": 10,
+            "statusMessage": "IMPLICATION→MACHINE reconcile gate..."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/zen-context.js\" --emit-protocol"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/zen-post-tool-failure-tripwire.js\"",
+            "timeout": 5,
+            "statusMessage": "IMPLICATION→MACHINE tripwire..."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "implication-machine",
+  "displayName": "IMPLICATION→MACHINE — living-contract working protocol",
+  "version": "0.1.0",
+  "author": { "name": "sylweriusz" },
+  "description": "Holds your contract, tests, docs, and code to one intent, every turn — and won't end the turn until reality agrees. A deterministic Stop-gate catches drift (clause↔test links, run-evidence, altitude); claim → proven, or the turn stays open.",
+  "keywords": ["workflow", "tdd", "contract", "testing", "discipline", "hooks", "verification"],
+  "license": "MIT"
+}

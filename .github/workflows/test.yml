@@ -1,0 +1,20 @@
+# Repo-level CI: the same three suites the build and the Stop-gate philosophy rest on,
+# run by GitHub on every push/PR — a deterministic exit-code verdict on a clean machine.
+# This file is repo infrastructure, not plugin content: build.sh does not manage it.
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: gate suite
+        run: bash hooks/zen-reconcile-gate.test.sh
+      - name: cli suite
+        run: bash bin/zen.test.sh
+      - name: tripwire suite
+        run: bash hooks/zen-post-tool-failure-tripwire.test.sh

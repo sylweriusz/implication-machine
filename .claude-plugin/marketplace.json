@@ -1,0 +1,12 @@
+{
+  "name": "implication-machine-marketplace",
+  "description": "IMPLICATION→MACHINE — the living-contract working protocol for Claude Code; keep contract, tests, docs, and code in agreement every turn.",
+  "owner": { "name": "sylweriusz" },
+  "plugins": [
+    {
+      "name": "implication-machine",
+      "source": "./",
+      "description": "Holds your contract, tests, docs, and code to one intent, every turn, and won't end the turn until reality agrees — a deterministic Stop-gate. claim → proven, or the turn stays open."
+    }
+  ]
+}
