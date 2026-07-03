@@ -371,12 +371,15 @@ fi
 # PATH and a bare `zen` fails on a stranger's machine (C-050). Checked in BOTH branches: governed
 # (index) and ungoverned-git (adoption nudge).
 CTX="$HOOKS/zen-context.js"
+# Assert in the MODEL's channel specifically (hookSpecificOutput.additionalContext), not the whole
+# JSON blob — an emission that drifted into systemMessage (human channel) must fail the case.
+model_channel() { "$NODE" -e 'const j=JSON.parse(require("fs").readFileSync(0,"utf8"));process.stdout.write((j.hookSpecificOutput&&j.hookSpecificOutput.additionalContext)||"")'; }
 r="$(new_repo)"
-out="$(printf '{"cwd":"%s"}' "$r" | "$NODE" "$CTX")"
+out="$(printf '{"cwd":"%s"}' "$r" | "$NODE" "$CTX" | model_channel)"
 echo "$out" | grep -q 'bin/zen\.js' && ok context_emits_cli_invocation_governed || bad context_emits_cli_invocation_governed
 rm -rf "$r"
 u="$(mktemp -d /tmp/zen-ctx-ungov.XXXXXX)"; ( cd "$u" && git init -q )
-out="$(printf '{"cwd":"%s"}' "$u" | "$NODE" "$CTX")"
+out="$(printf '{"cwd":"%s"}' "$u" | "$NODE" "$CTX" | model_channel)"
 echo "$out" | grep -q 'bin/zen\.js' && ok context_emits_cli_invocation_ungoverned || bad context_emits_cli_invocation_ungoverned
 rm -rf "$u"
 
